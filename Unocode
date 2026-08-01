@@ -1,0 +1,49 @@
+// =====================================
+// Gas Detector System using Arduino Uno
+// Author: Sagar Dalvi
+// =====================================
+
+// Pin Definitions
+const int gasSensorPin = A0;   // MQ-2 Analog Output
+const int ledPin = 7;          // LED
+const int buzzerPin = 8;       // Buzzer
+
+// Gas Threshold (Adjust after testing)
+int gasThreshold = 350;
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(ledPin, OUTPUT);
+  pinMode(buzzerPin, OUTPUT);
+
+  digitalWrite(ledPin, LOW);
+  digitalWrite(buzzerPin, LOW);
+
+  Serial.println("Gas Detector System Started...");
+}
+
+void loop() {
+  // Read gas sensor value
+  int gasValue = analogRead(gasSensorPin);
+
+  // Display value on Serial Monitor
+  Serial.print("Gas Value: ");
+  Serial.println(gasValue);
+
+  // Check gas level
+  if (gasValue > gasThreshold) {
+    Serial.println("⚠️ Gas Detected!");
+
+    digitalWrite(ledPin, HIGH);
+    digitalWrite(buzzerPin, HIGH);
+  }
+  else {
+    Serial.println("✅ Air Quality Normal");
+
+    digitalWrite(ledPin, LOW);
+    digitalWrite(buzzerPin, LOW);
+  }
+
+  delay(500);
+}
